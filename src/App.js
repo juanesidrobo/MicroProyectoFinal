@@ -1,25 +1,25 @@
-import logo from './logo.svg';
+// App.js
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Footer from './components/Footer';
+import Navbar from './components/Navbar';
+import Login from './components/Login';
+import Dashboard from './components/Dashboard';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p> Prueba de aplicacion MAR</p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navbar />
+      <div className="app-content">
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/" element={<Login />} />
+        </Routes>
+      </div>
+      <Footer /> {/* Componente de pie de página fijo */}
+    </Router>
   );
 }
 

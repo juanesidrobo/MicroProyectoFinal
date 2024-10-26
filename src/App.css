@@ -36,3 +36,28 @@
     transform: rotate(360deg);
   }
 }
+/* App.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden; /* Elimina el scroll inicial */
+}
+
+#root, .app-content {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-content {
+  flex: 1;
+  overflow-y: auto; /* Permite el scroll solo cuando el contenido se desborde */
+  padding-bottom: 20px; /* Ajusta si tienes el borde inferior */
+  
+}
+
