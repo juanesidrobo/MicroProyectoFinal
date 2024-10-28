@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; 
 import { AiOutlinePlus } from 'react-icons/ai';
 import { FiBox } from 'react-icons/fi';
 import NuevaListaModal from '../components/NuevaListaModal';
@@ -8,12 +8,28 @@ const Dashboard = () => {
   const [listaModalOpen, setListaModalOpen] = useState(false);
   const [listas, setListas] = useState([]);
   const [sitios, setSitios] = useState(["D1", "Éxito", "Oxxo"]);
+  const [listaParaDuplicar, setListaParaDuplicar] = useState(null);
 
   const agregarLista = (nuevaLista) => {
     setListas([nuevaLista, ...listas]);
     setListaModalOpen(false);
+    setListaParaDuplicar(null);
   };
-  // Función para agregar un sitio a la lista global de sitios
+
+  const duplicarLista = (lista) => {
+    const listaDuplicada = JSON.parse(JSON.stringify(lista));
+    setListaParaDuplicar({ ...listaDuplicada, nombre: `${lista.nombre} (Copia)` });
+    setListaModalOpen(true);
+  };
+
+  const actualizarLista = (nombreLista, productosActualizados) => {
+    setListas(prevListas => 
+      prevListas.map(lista => 
+        lista.nombre === nombreLista ? { ...lista, productos: productosActualizados } : lista
+      )
+    );
+  };
+
   const agregarSitio = (nuevoSitio) => {
     if (!sitios.includes(nuevoSitio)) {
       setSitios((prevSitios) => [...prevSitios, nuevoSitio]);
@@ -37,13 +53,14 @@ const Dashboard = () => {
         <div style={styles.listasContainer}>
           {listas.map((lista, index) => (
             <Lista 
-            key={index} 
-            nombre={lista.nombre} 
-            productos={lista.productos} 
-            sitios={sitios} // Pasar la lista global de sitios
-            onAgregarSitio={agregarSitio} // Pasar la función para agregar sitios
-          />
-          
+              key={index} 
+              nombre={lista.nombre} 
+              productos={lista.productos} 
+              sitios={sitios} 
+              onAgregarSitio={agregarSitio} 
+              onDuplicarLista={() => duplicarLista(lista)}
+              onActualizarProductos={(productosActualizados) => actualizarLista(lista.nombre, productosActualizados)}
+            />
           ))}
         </div>
       </div>
@@ -54,10 +71,12 @@ const Dashboard = () => {
         onGuardar={agregarLista} 
         sitios={sitios} 
         onAgregarSitio={agregarSitio} 
+        listaDuplicada={listaParaDuplicar}
       />
     </div>
   );
 };
+
 
 const styles = {
   container: {

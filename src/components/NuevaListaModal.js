@@ -1,26 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import NuevoProductoModal from './NuevoProductoModal';
-
 import '../styles/ventanasmodales.css';
 
 Modal.setAppElement('#root');
 
-const NuevaListaModal = ({ isOpen, onRequestClose, onGuardar, sitios, onAgregarSitio }) => {
+const NuevaListaModal = ({ isOpen, onRequestClose, onGuardar, sitios, onAgregarSitio, listaDuplicada }) => {
   const [productoModalOpen, setProductoModalOpen] = useState(false);
   const [nombreLista, setNombreLista] = useState("");
   const [productos, setProductos] = useState([]);
-  
+
+  useEffect(() => {
+    if (listaDuplicada) {
+      setNombreLista(listaDuplicada.nombre);
+      setProductos([...listaDuplicada.productos]);
+    } else {
+      setNombreLista("");
+      setProductos([]);
+    }
+  }, [listaDuplicada, isOpen]);
+
   const agregarProducto = (producto) => {
     setProductos([...productos, producto]);
   };
 
   const handleGuardar = () => {
     if (nombreLista.trim() !== "") {
-      onGuardar({ nombre: nombreLista, productos }); // Llama a la función para agregar la lista en el Dashboard
-      setNombreLista(""); // Limpia el campo de entrada
+      onGuardar({ nombre: nombreLista, productos });
+      setNombreLista("");
       setProductos([]);
-      onRequestClose(); // Cierra el modal
+      onRequestClose();
     }
   };
 
@@ -76,13 +85,12 @@ const NuevaListaModal = ({ isOpen, onRequestClose, onGuardar, sitios, onAgregarS
         </div>
       </Modal>
 
-      {/* Modal para añadir productos */}
       <NuevoProductoModal 
         isOpen={productoModalOpen} 
         onRequestClose={() => setProductoModalOpen(false)} 
         onGuardarProducto={agregarProducto} 
-        sitios={sitios} // Usar sitios globales
-        onAgregarSitio={onAgregarSitio} // Usar función global para añadir sitios
+        sitios={sitios}
+        onAgregarSitio={onAgregarSitio} 
       />
     </>
   );

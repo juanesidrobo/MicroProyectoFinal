@@ -3,22 +3,24 @@ import { FiCopy, FiEdit3 } from 'react-icons/fi';
 import EditarProductoModal from './EditarProductoModal';
 import NuevoProductoModal from './NuevoProductoModal'; // Importa el modal para agregar productos
 
-const Lista = ({ nombre, productos, sitios, onAgregarSitio }) => {
+const Lista = ({ nombre, productos, sitios, onAgregarSitio, onDuplicarLista, onActualizarProductos }) => {
   const [productosEstado, setProductosEstado] = useState([]);
   const [productoSeleccionado, setProductoSeleccionado] = useState(null);
   const [modalEditarAbierta, setModalEditarAbierta] = useState(false);
-  const [modalAgregarAbierta, setModalAgregarAbierta] = useState(false); // Estado para abrir NuevoProductoModal
+  const [modalAgregarAbierta, setModalAgregarAbierta] = useState(false);
 
   useEffect(() => {
+    // Asegúrate de que todos los productos estén activos al inicializar
     setProductosEstado(productos.map((producto) => ({ ...producto, activo: true })));
   }, [productos]);
-
+  
   const handleCheckboxChange = (index) => {
     setProductosEstado((prevProductos) => {
       const newProductos = prevProductos.map((producto, i) =>
         i === index ? { ...producto, activo: !producto.activo } : producto
       );
-      return newProductos.sort((a, b) => b.activo - a.activo);
+      onActualizarProductos(newProductos);
+      return newProductos;
     });
   };
 
@@ -33,27 +35,29 @@ const Lista = ({ nombre, productos, sitios, onAgregarSitio }) => {
   };
 
   const handleGuardarProducto = (productoEditado) => {
-    setProductosEstado((prevProductos) =>
-      prevProductos.map((producto) =>
-        producto.nombre === productoSeleccionado.nombre
-          ? { ...productoEditado, activo: producto.activo } // Mantener el estado "activo" original
-          : producto
-      )
+    const productosActualizados = productosEstado.map((producto) =>
+      producto.nombre === productoSeleccionado.nombre
+        ? { ...productoEditado, activo: producto.activo }
+        : producto
     );
+    setProductosEstado(productosActualizados);
+    onActualizarProductos(productosActualizados);
     cerrarModalEditar();
   };
 
   // Función para agregar un nuevo producto y mostrarlo al principio de la lista
   const handleAgregarProducto = (nuevoProducto) => {
-    setProductosEstado((prevProductos) => [{ ...nuevoProducto, activo: true }, ...prevProductos]);
-    setModalAgregarAbierta(false); // Cierra el modal después de agregar el producto
+    const productosActualizados = [{ ...nuevoProducto, activo: true }, ...productosEstado];
+    setProductosEstado(productosActualizados);
+    onActualizarProductos(productosActualizados);
+    setModalAgregarAbierta(false);
   };
 
   return (
     <div style={styles.listaContainer}>
       <div style={styles.listaHeader}>
         <h3 style={styles.listaTitulo}>{nombre}</h3>
-        <button style={styles.iconoDuplicar}>
+        <button style={styles.iconoDuplicar} onClick={onDuplicarLista}>
           <FiCopy />
         </button>
       </div>
