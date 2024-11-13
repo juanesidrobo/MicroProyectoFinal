@@ -1,9 +1,6 @@
 import React from 'react';
 
 function Login() {
-
-
-
   return (
     <div style={styles.container}>
       <h2>Iniciar Sesión</h2>
