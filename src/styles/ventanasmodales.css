@@ -1,0 +1,164 @@
+.modal {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    margin: auto;
+  }
+  
+  .overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modal-header {
+    background-color: #c78c6f;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    font-family: 'Open Sans', sans-serif;
+  }
+  .button-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .save-button, .cancel-button {
+    background-color: #c78c6f;
+    color: white;
+    border: none;
+    border-radius: 24px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: 'Lato', sans-serif;
+  }
+  .input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 12px;
+    background-color: #c78c6f;
+    color: white;
+    margin-top: 5px;
+    font-size: 16px;
+
+  }
+  input::placeholder {
+  color: white; /* Cambia el color del placeholder a blanco */
+  opacity: 0.7; /* Ajusta la opacidad para que se diferencie del texto */
+}
+/* VENTANA RPRODUCTO*/
+  
+.modal-form {
+    display: flex;
+    flex-direction: column;
+    
+  }
+  
+  .modal-label {
+    font-weight: bold;
+    color: #c78c6f;
+    margin-top: 10px;
+    
+  }
+  
+  
+  .sitio-group {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  .sitio-select {
+    flex: 1;
+    border: none;
+    border-radius: 12px;
+    padding: 10px;
+    background-color: #c78c6f;
+    color: white;
+    font-size: 16px;
+    margin-right: 10px;
+  }
+  
+  .plus-button {
+    background-color: #c78c6f;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+/* VENTANA LISTA*/
+  
+  .table-container {
+    margin-top: 20px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: center;
+    color: #c78c6f;
+  }
+  
+  th {
+    font-weight: bold;
+    color: #c78c6f;
+  }
+  
+  tbody tr {
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .add-product-button {
+    background-color: #c78c6f;
+    color: white;
+    border: none;
+    border-radius: 24px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-family: 'Lato', sans-serif;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+  }
+  
+  .plus-icon {
+    margin-left: 8px;
+  }
+  
+  .input-nombre-lista {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    outline: none;
+    font-size: 20px;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    color: #ffffff;
+    background-color: #c78c6f;
+    font-weight: bold;
+  }
+  
+  
+  
