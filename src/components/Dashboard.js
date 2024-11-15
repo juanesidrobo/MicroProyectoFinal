@@ -10,7 +10,8 @@ const Dashboard = () => {
   const [sitios, setSitios] = useState(["D1", "Éxito", "Oxxo"]);
   const [listaParaDuplicar, setListaParaDuplicar] = useState(null);
   const [userId, setUserId] = useState(null);
-  const [token, setToken] = useState(null)
+  const [token, setToken] = useState(null);
+  
 
   const agregarLista = (nuevaLista) => {
     setListas([nuevaLista, ...listas]);
@@ -43,10 +44,11 @@ const Dashboard = () => {
     setUserId(storedUserId);
     setToken(storedToken);
 
-    // Si necesitas hacer peticiones al backend, puedes utilizar el token
+    // Si necesitas hacer peticiones al backend, puedes utilizar el token :)
   }, []);
 
   return (
+    
     <div style={styles.container} className="dashboard">
       <header style={styles.header}>
         <button style={styles.addButton} onClick={() => setListaModalOpen(true)}>
@@ -58,7 +60,10 @@ const Dashboard = () => {
           <FiBox style={styles.inactiveIcon} />
         </button>
       </header>
-
+      // // ESTO ES PARA MOSTRAR EL ID DEL USUARIO ELIMINAR
+      <p>
+        {userId ? `Bienvenido, usuario ${userId}` : 'Bienvenido a tu dashboard'}
+      </p>
       <div style={styles.scrollContainer}>
         <div style={styles.listasContainer}>
           {listas.map((lista, index) => (

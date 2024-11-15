@@ -20,15 +20,28 @@ function App() {
       <div className="app-content">
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/admin" element={<AdminCreateUser />} />
-          <Route path="/editarUsuario" element={<AdminEditUser />} />
           <Route path="/" element={<Login />} />
           <Route
             path="/dashboard"
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <AdminCreateUser />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/editarUsuario"
+            element={
+              <ProtectedRoute>
+                <AdminEditUser />
               </ProtectedRoute>
             }
           />

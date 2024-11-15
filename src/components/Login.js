@@ -73,7 +73,7 @@ const Login = () => {
       try {
         const decodedUser = JSON.parse(atob(credentialResponse.credential.split('.')[1]));
         
-        const response = await fetch('YOUR_API_URL/google-login', {
+        const response = await fetch('http://localhost:5000/api/auth/google-login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -93,11 +93,17 @@ const Login = () => {
         }
 
         localStorage.setItem('token', data.token);
+        localStorage.setItem('userId', data.user.id);
         
         if (data.user.role === 'SUPER_ADMIN') {
           navigate('/admin');
         } else {
-          navigate('/dashboard');
+          if(data.user.estado === 1){
+            navigate('/dashboard');
+          }
+          else{
+            setError('Usuario bloqueado, contacte al administrador');
+          }
         }
       } catch (error) {
         setError(error.message);
