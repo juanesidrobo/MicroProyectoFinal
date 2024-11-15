@@ -9,6 +9,7 @@ const NuevoSitioModal = ({ isOpen, onRequestClose, onGuardarSitio }) => {
   const handleGuardar = () => {
     if (nombreSitio.trim() !== "") {
       onGuardarSitio(nombreSitio); // Llama a la función para guardar el sitio en NuevoProductoModal
+      
       setNombreSitio("");
       onRequestClose();
     }

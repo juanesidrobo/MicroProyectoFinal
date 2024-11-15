@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; 
+import React, { useEffect ,useState } from 'react'; 
 import { AiOutlinePlus } from 'react-icons/ai';
 import { FiBox } from 'react-icons/fi';
 import NuevaListaModal from '../components/NuevaListaModal';
@@ -9,6 +9,8 @@ const Dashboard = () => {
   const [listas, setListas] = useState([]);
   const [sitios, setSitios] = useState(["D1", "Éxito", "Oxxo"]);
   const [listaParaDuplicar, setListaParaDuplicar] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [token, setToken] = useState(null)
 
   const agregarLista = (nuevaLista) => {
     setListas([nuevaLista, ...listas]);
@@ -35,6 +37,14 @@ const Dashboard = () => {
       setSitios((prevSitios) => [...prevSitios, nuevoSitio]);
     }
   };
+  useEffect(() => {
+    const storedUserId = localStorage.getItem('userId');
+    const storedToken = localStorage.getItem('token');
+    setUserId(storedUserId);
+    setToken(storedToken);
+
+    // Si necesitas hacer peticiones al backend, puedes utilizar el token
+  }, []);
 
   return (
     <div style={styles.container} className="dashboard">

@@ -1,37 +1,114 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { AuthContext } from './AuthContext';
+import { useContext } from 'react';
 
-function Login() {
+import '../styles/Login.css'; // Update this path with the actual location
+import cabezaImg from './cab.png'; // Update this path with the actual location
+import listaImg from './izq.png'; // Update this path
+
+const Login = () => {
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
+  const [error, setError] = useState('');
   const clientId = '1074366058014-ie7i9b8e3i3gv5thd02b38nk3avd1v8b.apps.googleusercontent.com';
 
   useEffect(() => {
-    // Limpiar cualquier estado previo de autenticación
     if (window.google && window.google.accounts) {
       window.google.accounts.id.cancel();
     }
   }, []);
 
-  const handleLoginSuccess = (credentialResponse) => {
+  const handleInputChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleTraditionalLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Error en el inicio de sesión');
+      }
+      login(data.token, data.user.id);
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('userId', data.user.id);
+      
+      if (data.user.role === 'SUPER_ADMIN') {
+        navigate('/admin');
+      } else {
+        if(data.user.estado === 1){
+          navigate('/dashboard');
+        }
+        else{
+          setError('Usuario bloqueado, contacte al administrador');
+        }
+      }
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  const handleGoogleLoginSuccess = async (credentialResponse) => {
     if (credentialResponse.credential) {
       try {
         const decodedUser = JSON.parse(atob(credentialResponse.credential.split('.')[1]));
-        setUser(decodedUser);
-        console.log("Login exitoso:", decodedUser);
+        
+        const response = await fetch('YOUR_API_URL/google-login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: decodedUser.email,
+            name: decodedUser.name,
+            googleId: decodedUser.sub,
+            picture: decodedUser.picture
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || 'Error en el inicio de sesión con Google');
+        }
+
+        localStorage.setItem('token', data.token);
+        
+        if (data.user.role === 'SUPER_ADMIN') {
+          navigate('/admin');
+        } else {
+          navigate('/dashboard');
+        }
       } catch (error) {
-        console.error("Error al decodificar credenciales:", error);
+        setError(error.message);
+        console.error("Error:", error);
       }
     }
   };
 
-  const handleLoginError = (error) => {
-    console.error("Error al iniciar sesión:", error);
-  };
-
   const handleLogout = () => {
+    localStorage.removeItem('token');
     setUser(null);
-    // Limpiar el estado de autenticación
     if (window.google && window.google.accounts) {
       window.google.accounts.id.revoke(user?.email, () => {
         console.log('Sesión cerrada correctamente');
@@ -40,88 +117,63 @@ function Login() {
   };
 
   return (
-    <GoogleOAuthProvider 
-      clientId={clientId}
-      onScriptLoadError={() => console.error('Error al cargar el script de Google')}
-      onScriptLoadSuccess={() => console.log('Script de Google cargado correctamente')}
-    >
-      <div style={{ 
-        display: 'flex', 
-        flexDirection: 'column', 
-        alignItems: 'center', 
-        justifyContent: 'center',
-        minHeight: '100vh',
-        backgroundColor: '#f3f4f6',
-        padding: '20px'
-      }}>
-        {!user ? (
-          <div style={{ padding: '20px' }}>
-            <GoogleLogin
-              onSuccess={handleLoginSuccess}
-              onError={handleLoginError}
-              useOneTap={false}
-              text="signin_with"
-              shape="rectangular"
-              locale="es"
-              theme="filled_blue"
-              size="large"
-              context="signin"
-              ux_mode="popup"
-              auto_select={false}
-              itp_support={true}
-              scope="email profile openid"
-              cookiePolicy={'single_host_origin'}
-            />
+    <GoogleOAuthProvider clientId={clientId}>
+      <div className="container">
+        
+        <div className="left-section">
+          <img src={listaImg} alt="Lista de Compras" />
+        </div>
+
+        <div className="right-section">
+          <div className="login-box">
+            <img src={cabezaImg} alt="Avatar" className="login-avatar" />
+            <h2 className="login-title">Bienvenido a Keep Shop!</h2>
+            {error && <p className="error-message">{error}</p>}
+
+            <form onSubmit={handleTraditionalLogin}>
+              <div className="form-group">
+                <label>Nombre:</label>
+                <input
+                  name="email"
+                  required
+                  placeholder="Correo electrónico"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  maxLength={40}
+                />
+              </div>
+              <div className="form-group">
+                <label>Contraseña:</label>
+                <input
+                  type="password"
+                  name="password"
+                  required
+                  placeholder="Contraseña"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  maxLength={250}
+                />
+              </div>
+
+              <button type="submit" className="login-button">Iniciar Sesión</button>
+            </form>
+
+            <div className="divider">
+              <span>O continúa con</span>
+            </div>
+
+            <div>
+              <GoogleLogin
+                onSuccess={handleGoogleLoginSuccess}
+                onError={() => setError('Error al iniciar sesión con Google')}
+                useOneTap={false}
+              />
+            </div>
           </div>
-        ) : (
-          <div style={{
-            backgroundColor: 'white',
-            padding: '24px',
-            borderRadius: '8px',
-            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-            textAlign: 'center',
-            width: '300px'
-          }}>
-            <img 
-              src={user.picture} 
-              alt={user.name}
-              style={{
-                width: '80px',
-                height: '80px',
-                borderRadius: '50%',
-                margin: '0 auto 16px'
-              }}
-            />
-            <h1 style={{
-              fontSize: '1.25rem',
-              fontWeight: 'bold',
-              marginBottom: '8px'
-            }}>{user.name}</h1>
-            <p style={{
-              color: '#666',
-              marginBottom: '16px'
-            }}>{user.email}</p>
-            <button
-              onClick={handleLogout}
-              style={{
-                width: '100%',
-                backgroundColor: '#ef4444',
-                color: 'white',
-                padding: '8px 16px',
-                borderRadius: '4px',
-                border: 'none',
-                cursor: 'pointer'
-              }}
-              onMouseOver={(e) => e.target.style.backgroundColor = '#dc2626'}
-              onMouseOut={(e) => e.target.style.backgroundColor = '#ef4444'}
-            >
-              Cerrar Sesión
-            </button>
-          </div>
-        )}
+        </div>
       </div>
     </GoogleOAuthProvider>
   );
-}
+};
 
 export default Login;

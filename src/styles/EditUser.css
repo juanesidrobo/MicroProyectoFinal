@@ -1,0 +1,208 @@
+/* Container setup */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f7f7f7;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Title Styling */
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #C78C6F;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Search Bar */
+  .search-bar {
+    display: flex;
+    align-items: center;
+    margin: 0 auto 20px;
+    width: 100%;
+    max-width: 500px;
+  }
+  
+  .search-bar input {
+    width: 100%;
+    padding: 10px 40px;
+    border: 1px solid #C78C6F;
+    border-radius: 25px;
+    background-color: #fff;
+    font-size: 16px;
+  }
+  
+  .search-bar input::placeholder {
+    color: #C78C6F;
+  }
+  
+  .search-bar svg {
+    position: absolute;
+    margin-left: 10px;
+    color: #C78C6F;
+  }
+  
+  /* User List Table */
+  .user-list {
+    width: 100%;
+    max-width: 800px;
+    border: 1px solid #C78C6F;
+    border-radius: 8px;
+    margin-top: 20px;
+    overflow: hidden;
+  }
+  
+  .user-list table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #333;
+  }
+  
+  .user-list th, .user-list td {
+    padding: 12px;
+    text-align: center;
+    font-size: 14px;
+  }
+  
+  .user-list th {
+    background-color: #C78C6F;
+    color: #fff;
+  }
+  
+  .user-list tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  /* Form Group */
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input, .form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #C78C6F;
+    border-radius: 25px;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  /* Buttons */
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .cancel-button, .delete-button, .save-button {
+    padding: 10px 20px;
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .cancel-button {
+    color: #C78C6F;
+    border: 1px solid #C78C6F;
+    background-color: #fff;
+  }
+  
+  .cancel-button:hover {
+    background-color: #f1e4e0;
+  }
+  
+  .delete-button {
+    color: #e74c3c;
+    border: 1px solid #e74c3c;
+    background-color: #fff;
+  }
+  
+  .delete-button:hover {
+    background-color: #fbe2e2;
+  }
+  
+  .save-button {
+    color: #fff;
+    background-color: #C78C6F;
+    border: none;
+  }
+  
+  .save-button:hover {
+    background-color: #b07563;
+  }
+/* Editable Form Title */
+.edit-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #C78C6F;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  /* Form Group Styling */
+  .edit-form .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .edit-form .form-group label {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  .edit-form .form-group input, .edit-form .form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #C78C6F;
+    border-radius: 25px;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  /* Button Container */
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  /* Cancel and Save Buttons */
+  .cancel-button {
+    padding: 10px 20px;
+    color: #C78C6F;
+    border: 1px solid #C78C6F;
+    background-color: #fff;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .cancel-button:hover {
+    background-color: #f1e4e0;
+  }
+  
+  .save-button {
+    padding: 10px 20px;
+    color: #fff;
+    background-color: #C78C6F;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .save-button:hover {
+    background-color: #b07563;
+  }
+    

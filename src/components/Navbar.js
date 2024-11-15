@@ -1,25 +1,40 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { AuthContext } from './AuthContext';
 
 function Navbar() {
-  const location = useLocation();
-  const isLoggedIn = location.pathname === '/dashboard';
+  const { isAuthenticated, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
   return (
     <nav style={styles.navbar}>
-      <div style={styles.logoContainer}>
-        <img src={`${process.env.PUBLIC_URL}/logokeep.png`} alt="Keep Shop Logo" style={styles.logo} />
-        <h1 style={styles.title}>KEEP SHOP</h1>
-      </div>
-      <Link to={isLoggedIn ? '/login' : '/dashboard'} style={styles.link}>
-        <div style={styles.sessionContainer}>
-          {isLoggedIn ? 'Cerrar Sesión' : 'Iniciar Sesión'}
-          <img src={`${process.env.PUBLIC_URL}/iconlogin.png`} alt="Login Icon" style={styles.icon} />
-        </div>
-      </Link>
+      {/* ...resto del código */}
+      {isAuthenticated ? (
+        <button onClick={handleLogout} style={styles.link}>
+          <div style={styles.sessionContainer}>
+            Cerrar Sesión
+            <img src={`${process.env.PUBLIC_URL}/iconlogin.png`} alt="Logout Icon" style={styles.icon} />
+          </div>
+        </button>
+      ) : (
+        <Link to="/login" style={styles.link}>
+          <div style={styles.sessionContainer}>
+            Iniciar Sesión
+            <img src={`${process.env.PUBLIC_URL}/iconlogin.png`} alt="Login Icon" style={styles.icon} />
+          </div>
+        </Link>
+      )}
     </nav>
   );
 }
+
+// ...estilos y exportación
+
 
 const styles = {
   navbar: {
@@ -51,8 +66,11 @@ const styles = {
     textDecoration: 'none',
     fontSize: '16px',
     color: '#C78C6F',
-    fontFamily: '"Lato", sans-serif', // Usar Lato para el texto de sesión
+    fontFamily: '"Lato", sans-serif',
     fontWeight: 'bold',
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
   },
   sessionContainer: {
     display: 'flex',

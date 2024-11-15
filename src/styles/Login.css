@@ -1,0 +1,135 @@
+/* Container setup */
+.container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f7f7f7;
+  }
+  
+  /* Left section styling */
+  .left-section {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+  }
+  
+  .left-section img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Right section styling */
+  .right-section {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  .login-box {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  /* Avatar styling */
+  .login-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+  }
+  
+  /* Title styling */
+  .login-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #C78C6F;
+    margin-bottom: 20px;
+  }
+  
+  /* Error message styling */
+  .error-message {
+    color: #e74c3c;
+    margin-top: 10px;
+  }
+  
+  /* Form styling */
+  .form-group {
+    margin-bottom: 15px;
+    text-align: left;
+  }
+  
+  .form-group label {
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* Button styling */
+  .login-button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background-color: #C78C6F;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .login-button:hover {
+    background-color: #333;
+  }
+  
+  /* Divider styling */
+  .divider {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+  }
+  
+  .divider::before,
+  .divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: #ccc;
+  }
+  
+  .divider span {
+    padding: 0 10px;
+    color: #777;
+  }
+  
+  /* Google button styling */
+  .google-login-button {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #C78C6F;
+    color: #4285f4;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .google-login-button:hover {
+    background-color: #C78C6F;
+    color: #fff;
+  }
+  
