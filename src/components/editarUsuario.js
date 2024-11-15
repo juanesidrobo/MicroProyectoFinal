@@ -291,6 +291,15 @@ const EditUser = () => {
               />
             </div>
             <div className="form-group">
+              <label>Estado</label>
+              <input
+                type="text"
+                name="estado"
+                value={formData.estado}
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="form-group">
               <label>Fecha de Nacimiento</label>
               <input
                 type="date"
