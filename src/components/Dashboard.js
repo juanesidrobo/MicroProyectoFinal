@@ -60,10 +60,7 @@ const Dashboard = () => {
           <FiBox style={styles.inactiveIcon} />
         </button>
       </header>
-      // // ESTO ES PARA MOSTRAR EL ID DEL USUARIO ELIMINAR
-      <p>
-        {userId ? `Bienvenido, usuario ${userId}` : 'Bienvenido a tu dashboard'}
-      </p>
+      
       <div style={styles.scrollContainer}>
         <div style={styles.listasContainer}>
           {listas.map((lista, index) => (

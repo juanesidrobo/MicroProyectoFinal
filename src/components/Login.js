@@ -7,7 +7,7 @@ import { useContext } from 'react';
 
 import '../styles/Login.css'; // Update this path with the actual location
 import cabezaImg from './cab.png'; // Update this path with the actual location
-import listaImg from './izq.png'; // Update this path
+//import listaImg from './izq.png'; // Update this path
 
 const Login = () => {
   const { login } = useContext(AuthContext);
@@ -124,57 +124,51 @@ const Login = () => {
 
   return (
     <GoogleOAuthProvider clientId={clientId}>
-      <div className="container">
-        
-        <div className="left-section">
-          <img src={listaImg} alt="Lista de Compras" />
-        </div>
+      <div className="login-container">
+        <div className="login-box">
+          <img src={cabezaImg} alt="Avatar" className="login-avatar" />
+          <h2 className="login-title">Bienvenido a Keep Shop!</h2>
+          {error && <p className="error-message">{error}</p>}
 
-        <div className="right-section">
-          <div className="login-box">
-            <img src={cabezaImg} alt="Avatar" className="login-avatar" />
-            <h2 className="login-title">Bienvenido a Keep Shop!</h2>
-            {error && <p className="error-message">{error}</p>}
-
-            <form onSubmit={handleTraditionalLogin}>
-              <div className="form-group">
-                <label>Nombre:</label>
-                <input
-                  name="email"
-                  required
-                  placeholder="Correo electrónico"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  maxLength={40}
-                />
-              </div>
-              <div className="form-group">
-                <label>Contraseña:</label>
-                <input
-                  type="password"
-                  name="password"
-                  required
-                  placeholder="Contraseña"
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  maxLength={250}
-                />
-              </div>
-
-              <button type="submit" className="login-button">Iniciar Sesión</button>
-            </form>
-
-            <div className="divider">
-              <span>O continúa con</span>
-            </div>
-
-            <div>
-              <GoogleLogin
-                onSuccess={handleGoogleLoginSuccess}
-                onError={() => setError('Error al iniciar sesión con Google')}
-                useOneTap={false}
+          <form onSubmit={handleTraditionalLogin}>
+            <div className="form-group">
+              <label>Nombre:</label>
+              <input
+                name="email"
+                required
+                placeholder="Correo electrónico"
+                value={formData.email}
+                onChange={handleInputChange}
+                maxLength={40}
               />
             </div>
+            <div className="form-group">
+              <label>Contraseña:</label>
+              <input
+                type="password"
+                name="password"
+                required
+                placeholder="Contraseña"
+                value={formData.password}
+                onChange={handleInputChange}
+                maxLength={250}
+              />
+            </div>
+
+            <button type="submit" className="login-button">Iniciar Sesión</button>
+          </form>
+
+          <div className="divider">
+            <span>O continúa con</span>
+          </div>
+
+          <div>
+            <GoogleLogin
+              onSuccess={handleGoogleLoginSuccess}
+              onError={() => setError('Error al iniciar sesión con Google')}
+              useOneTap={false}
+              className="google-login-button"
+            />
           </div>
         </div>
       </div>
