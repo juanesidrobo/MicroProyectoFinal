@@ -1,14 +1,18 @@
-import React, { useState } from 'react'; 
+import React, { useEffect ,useState } from 'react'; 
 import { AiOutlinePlus } from 'react-icons/ai';
 import { FiBox } from 'react-icons/fi';
+import axios from 'axios';
 import NuevaListaModal from '../components/NuevaListaModal';
 import Lista from '../components/Lista';
 
 const Dashboard = () => {
   const [listaModalOpen, setListaModalOpen] = useState(false);
   const [listas, setListas] = useState([]);
-  const [sitios, setSitios] = useState(["D1", "Éxito", "Oxxo"]);
+  const [sitios, setSitios] = useState([]);
   const [listaParaDuplicar, setListaParaDuplicar] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [token, setToken] = useState(null);
+  
 
   const agregarLista = (nuevaLista) => {
     setListas([nuevaLista, ...listas]);
@@ -35,6 +39,29 @@ const Dashboard = () => {
       setSitios((prevSitios) => [...prevSitios, nuevoSitio]);
     }
   };
+  useEffect(() => {
+    const storedUserId = localStorage.getItem('userId');
+    const storedToken = localStorage.getItem('token');
+    setUserId(storedUserId);
+    setToken(storedToken);
+
+    // Si necesitas hacer peticiones al backend, puedes utilizar el token :)
+    const cargarSitios = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        
+        const response = await axios.get('http://localhost:5000/api/sitio', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        
+        setSitios(response.data);
+      } catch (error) {
+        console.error("Error al cargar sitios:", error);
+      }
+    };
+    
+    cargarSitios();
+  }, []);
 
   return (
     <div style={styles.container} className="dashboard">
@@ -56,7 +83,7 @@ const Dashboard = () => {
               key={index} 
               nombre={lista.nombre} 
               productos={lista.productos} 
-              sitios={sitios} 
+              sitios={sitios.map(s => s.nombre)} 
               onAgregarSitio={agregarSitio} 
               onDuplicarLista={() => duplicarLista(lista)}
               onActualizarProductos={(productosActualizados) => actualizarLista(lista.nombre, productosActualizados)}
@@ -69,7 +96,7 @@ const Dashboard = () => {
         isOpen={listaModalOpen} 
         onRequestClose={() => setListaModalOpen(false)} 
         onGuardar={agregarLista} 
-        sitios={sitios} 
+        sitios={sitios.map(s => s.nombre)} 
         onAgregarSitio={agregarSitio} 
         listaDuplicada={listaParaDuplicar}
       />
@@ -94,15 +121,15 @@ const styles = {
     width: '100%',
   },
   scrollContainer: {
-    maxHeight: 'calc(100vh - 150px)', // Altura máxima para el contenedor con desplazamiento
-    overflowY: 'auto', // Desplazamiento vertical
+    maxHeight: 'calc(100vh - 150px)', 
+    overflowY: 'auto',
     padding: '10px 0',
   },
   listasContainer: {
     display: 'flex',
     flexWrap: 'wrap',
     gap: '20px',
-    justifyContent: 'center', // Centra las listas horizontalmente
+    justifyContent: 'center',
   },
   addButton: {
     display: 'flex',
