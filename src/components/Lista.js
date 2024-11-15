@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FiCopy, FiEdit3 } from 'react-icons/fi';
 import EditarProductoModal from './EditarProductoModal';
-import NuevoProductoModal from './NuevoProductoModal'; // Importa el modal para agregar productos
+import NuevoProductoModal from './NuevoProductoModal';
 
 const Lista = ({ nombre, productos, sitios, onAgregarSitio, onDuplicarLista, onActualizarProductos }) => {
   const [productosEstado, setProductosEstado] = useState([]);
@@ -10,16 +10,21 @@ const Lista = ({ nombre, productos, sitios, onAgregarSitio, onDuplicarLista, onA
   const [modalAgregarAbierta, setModalAgregarAbierta] = useState(false);
 
   useEffect(() => {
-    // Asegúrate de que todos los productos estén activos al inicializar
-    setProductosEstado(productos.map((producto) => ({ ...producto, activo: true })));
-  }, [productos]);
-  
+    // Solo actualiza el estado si los productos cambian
+    if (
+      productos.length !== productosEstado.length ||
+      !productos.every((p, i) => p.nombre === productosEstado[i]?.nombre)
+    ) {
+      setProductosEstado(productos.map((producto) => ({ ...producto, activo: true })));
+    }
+  }, [productos, productosEstado]);
+
   const handleCheckboxChange = (index) => {
     setProductosEstado((prevProductos) => {
       const newProductos = prevProductos.map((producto, i) =>
         i === index ? { ...producto, activo: !producto.activo } : producto
       );
-      onActualizarProductos(newProductos);
+      onActualizarProductos(newProductos); // Notificar al padre
       return newProductos;
     });
   };
@@ -45,19 +50,17 @@ const Lista = ({ nombre, productos, sitios, onAgregarSitio, onDuplicarLista, onA
     cerrarModalEditar();
   };
 
-  // Función para agregar un nuevo producto y mostrarlo al principio de la lista
   const handleAgregarProducto = (nuevoProducto) => {
     const productosActualizados = [{ ...nuevoProducto, activo: true }, ...productosEstado];
     setProductosEstado(productosActualizados);
     onActualizarProductos(productosActualizados);
     setModalAgregarAbierta(false);
   };
-
   return (
     <div style={styles.listaContainer}>
       <div style={styles.listaHeader}>
         <h3 style={styles.listaTitulo}>{nombre}</h3>
-        <button style={styles.iconoDuplicar} onClick={onDuplicarLista}>
+        <button style={styles.iconoDuplicar}>
           <FiCopy />
         </button>
       </div>
