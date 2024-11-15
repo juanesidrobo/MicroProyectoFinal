@@ -5,9 +5,8 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { AuthContext } from './AuthContext';
 import { useContext } from 'react';
 
-import '../styles/Login.css'; // Update this path with the actual location
-import cabezaImg from './cab.png'; // Update this path with the actual location
-//import listaImg from './izq.png'; // Update this path
+import '../styles/Login.css'; 
+import cabezaImg from './cab.png'; 
 
 const Login = () => {
   const { login } = useContext(AuthContext);
